@@ -61,7 +61,7 @@ def create_hparams(**kwargs):
         "warm_start": False,  # Load the model only (warm start)
         "n_gpus": 1,  # Number of GPUs
         "rank": 0,  # Rank of current gpu
-        "group_name": 'group_name',  # Distributed group name
+        "group_name": '',  # Distributed group name
 
         ################################
         # Data Parameters             #

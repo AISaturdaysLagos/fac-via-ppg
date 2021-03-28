@@ -38,6 +38,8 @@ if __name__ == '__main__':
                         help='Path to a native speaker recording.')
     parser.add_argument('--output_dir', type=str, required=True,
                         help='Output dir, will save the audio and log info.')
+    parser.add_argument('--output_name', type=str, default="ac",
+                        help='Output filename.')
     args = parser.parse_args()
 
     # Prepare dirs
@@ -71,7 +73,10 @@ if __name__ == '__main__':
     logging.debug('Denoiser strength: %f', denoiser_strength)
     logging.debug('Denoiser mode: %s', denoiser_mode)
 
+
     hparams = create_hparams_stage()
+
+
     taco_stft = TacotronSTFT(
         hparams.filter_length, hparams.hop_length, hparams.win_length,
         hparams.n_acoustic_feat_dims, hparams.sampling_rate,
@@ -94,7 +99,7 @@ if __name__ == '__main__':
         ac_wav = denoiser(
             ac_wav, strength=denoiser_strength)[:, 0].cpu().numpy().T
 
-        output_file = os.path.join(output_dir, 'ac.wav')
+        output_file = os.path.join(output_dir, '{}.wav'.format(args.output_name))
         wavfile.write(output_file, fs, ac_wav)
     else:
         logging.warning('Missing %s', teacher_utt_path)
