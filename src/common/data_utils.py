@@ -43,6 +43,7 @@ from ppg import DependenciesPPG
 from scipy.io import wavfile
 from common import feat
 from common import ppg
+import librosa
 
 
 # First order, dx(t) = 0.5(x(t + 1) - x(t - 1))
@@ -223,7 +224,9 @@ class PPGMelLoader(torch.utils.data.Dataset):
             feat_pairs: A list, each is a [pps, mel] pair.
         """
         utt = Utterance()
-        fs, wav = wavfile.read(data_utterance_path)
+        # fs, wav = wavfile.read(data_utterance_path)
+        wav, fs = librosa.load(data_utterance_path, sr=self.stft.sampling_rate)
+
         utt.fs = fs
         utt.wav = wav
         utt.ppg = get_ppg(data_utterance_path, self.ppg_deps)

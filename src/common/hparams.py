@@ -54,7 +54,7 @@ def create_hparams(**kwargs):
         "dist_url": "tcp://localhost:54321",
         "cudnn_enabled": True,
         "cudnn_benchmark": False,
-        "output_directory": None,  # Directory to save checkpoints.
+        "output_directory": "checkpoints",  # Directory to save checkpoints.
         # Directory to save tensorboard logs. Just keep it like this.
         "log_directory": 'log',
         "checkpoint_path": '',  # Path to a checkpoint file.
@@ -68,10 +68,10 @@ def create_hparams(**kwargs):
         ################################
         # Passed as a txt file, see data/filelists/training-set.txt for an
         # example.
-        "training_files": '',
+        "training_files": 'data/filelists/training_set.txt',
         # Passed as a txt file, see data/filelists/validation-set.txt for an
         # example.
-        "validation_files": '',
+        "validation_files": 'data/filelists/validation_set.txt',
         "is_full_ppg": True,  # Whether to use the full PPG or not.
         "is_append_f0": False,  # Currently only effective at sentence level
         "ppg_subsampling_factor": 1,  # Sub-sample the ppg & acoustic sequence.
@@ -170,8 +170,8 @@ def create_hparams_stage(**kwargs):
         'attention_location_n_filters': 32,
         'attention_rnn_dim': 300,
         'attention_window_size': 20,
-        'batch_size': 6,
-        'checkpoint_path': None,
+        'batch_size': 4,
+        'checkpoint_path': "output_male500/checkpoint_0",
         'cudnn_benchmark': False,
         'cudnn_enabled': True,
         'decoder_rnn_dim': 300,
@@ -183,13 +183,13 @@ def create_hparams_stage(**kwargs):
         'encoder_kernel_size': 5,
         'encoder_n_convolutions': 3,
         'epochs': 1000,
-        'feats_cache_path': '',
+        'feats_cache_path': 'data/cached_feats/cached_male500.pkl',
         'filter_length': 1024,
         'fp16_run': False,
         'gate_threshold': 0.5,
         'gate_weight': 0.005,
         'grad_clip_thresh': 1.0,
-        'group_name': 'group_name',
+        'group_name': '',
         'hop_length': 160,
         'is_append_f0': False,
         'is_cache_feats': False,
@@ -210,7 +210,7 @@ def create_hparams_stage(**kwargs):
         'n_acoustic_feat_dims': 80,
         'n_gpus': 1,
         'n_symbols': 5816,
-        'output_directory': '',
+        'output_directory': 'output_male500',
         'p_attention_dropout': 0.1,
         'p_decoder_dropout': 0.1,
         'postnet_embedding_dim': 512,
@@ -223,9 +223,9 @@ def create_hparams_stage(**kwargs):
         'seed': 16807,
         'sequence_level': 'sentence',
         'symbols_embedding_dim': 600,
-        'training_files': '',
+        'training_files': 'datasets/filepaths/male_train_500.txt',
         'use_saved_learning_rate': False,
-        'validation_files': '',
+        'validation_files': 'datasets/filepaths/male_valid_500.txt',
         'warm_start': False,
         'weight_decay': 1e-06,
         'win_length': 1024}

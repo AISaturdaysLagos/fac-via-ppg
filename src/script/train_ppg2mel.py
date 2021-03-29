@@ -31,6 +31,9 @@
 
 """Modified from https://github.com/NVIDIA/tacotron2"""
 
+import warnings 
+warnings.filterwarnings("ignore")
+
 import os
 import time
 import math
@@ -44,7 +47,7 @@ from common.model import Tacotron2
 from common.data_utils import PPGMelLoader, ppg_acoustics_collate
 from common.loss_function import Tacotron2Loss
 from common.logger import Tacotron2Logger
-from common.hparams import create_hparams
+from common.hparams import create_hparams, create_hparams_stage
 from pprint import pprint
 
 
@@ -190,6 +193,8 @@ def train(output_directory, log_directory, checkpoint_path, warm_start, n_gpus,
     rank (int): rank of current gpu
     hparams (object): comma separated list of "name=value" pairs.
     """
+
+    # import pdb;pdb.set_trace()
     if hparams.distributed_run:
         init_distributed(hparams, n_gpus, rank, group_name)
 
@@ -211,6 +216,7 @@ def train(output_directory, log_directory, checkpoint_path, warm_start, n_gpus,
 
     train_loader, valset, collate_fn = prepare_dataloaders(hparams)
 
+    # import pdb;pdb.set_trace()
     # Load checkpoint if one exists
     iteration = 0
     epoch_offset = 0
@@ -226,6 +232,7 @@ def train(output_directory, log_directory, checkpoint_path, warm_start, n_gpus,
             epoch_offset = max(0, int(iteration / len(train_loader)))
 
     model.train()
+    # import pdb;pdb.set_trace()
     # ================ MAIN TRAINNIG LOOP! ===================
     for epoch in range(epoch_offset, hparams.epochs):
         print("Epoch: {}".format(epoch))
@@ -274,10 +281,13 @@ def train(output_directory, log_directory, checkpoint_path, warm_start, n_gpus,
                                     checkpoint_path)
 
             iteration += 1
+    
+    print('finished training!')
 
 
 if __name__ == '__main__':
-    hparams = create_hparams()
+    # hparams = create_hparams()
+    hparams = create_hparams_stage()
 
     if not hparams.output_directory:
         raise FileExistsError('Please specify the output dir.')
